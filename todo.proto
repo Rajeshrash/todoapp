@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+service TodoService {
+    rpc GetAllTodos(EmptyRequest) returns (TodoList) {}
+    rpc AddTodo(Todo) returns (OperationResponse) {}
+    rpc UpdateTodo(Todo) returns (OperationResponse) {}
+    rpc DeleteTodo(Todo) returns (OperationResponse) {}
+}
+
+message EmptyRequest {}
+
+message Todo {
+  int32 id = 1;
+  string task = 2;
+}
+
+message TodoList {
+    repeated Todo data = 1;
+}
+
+message OperationResponse {
+    enum OPERATION_STATUS {
+        UNKNOWN_OPERATION_STATUS = 0;
+        CREATED = 1;
+        DELETED = 2;
+        UPDATED = 3;
+    }
+    string error = 1;
+    OPERATION_STATUS status = 2;
+    Todo todo = 3;
+}
